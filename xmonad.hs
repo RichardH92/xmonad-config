@@ -43,16 +43,16 @@ import Control.Concurrent
 
 myKeys conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
     -- terminals
-    [ ((modMask,                 xK_Return), spawn $ XMonad.terminal conf)
-    , ((modMask .|. shiftMask,   xK_Return), spawn "urxvt -pe tabbed")
+    --[ ((modMask,                 xK_Return), spawn $ XMonad.terminal conf)
+    [ ((modMask .|. shiftMask,   xK_Return), spawn "urxvt")
  
     -- file manager
     , ((modMask,                 xK_Up    ), spawn "nautilus ~")
  
     -- shell/window prompts
-    , ((modMask,                 xK_space ), runOrRaisePrompt mySP)
-    , ((modMask .|. shiftMask,   xK_space ), shellPrompt mySP)
-    , ((modMask .|. controlMask, xK_space), windowPromptGoto mySP)
+    --, ((modMask,                 xK_space ), runOrRaisePrompt mySP)
+    --, ((modMask .|. shiftMask,   xK_space ), shellPrompt mySP)
+    --, ((modMask .|. controlMask, xK_space), windowPromptGoto mySP)
  
     -- browser
     --, ((modMask,               xK_b     ), runOrRaise
@@ -222,28 +222,22 @@ myManageHook = composeAll
  
 		
 main = do
-	xmproc <- spawnPipe "xmobar"
+    xmproc <- spawnPipe "xmobar"
 
-    env <- getEnvironment
-    case lookup "DESKTOP_AUTOSTART_ID" env of
-        Just id -> do
-            forkIO $ (>> return ()) $ rawSystem "dbus-send" ["--session","--print-reply=string","--dest=org.gnome.SessionManager","/org/gnome/SessionManager","org.gnome.SessionManager.RegisterClient","string:xmonad","string:"++id]
-            return ()
-        Nothing -> return ()
     xmonad $ defaultConfig 
-		{ terminal           = "urxvt"
-		, borderWidth        = 2
-		, normalBorderColor  = "black"
-		, focusedBorderColor = "orange"
-		, focusFollowsMouse  = True
-		, modMask            = mod4Mask
-		, keys               = myKeys
-		, mouseBindings      = myMouseBindings
-		, layoutHook         = myLayout
-		, handleEventHook    = ewmhDesktopsEventHook
-		, startupHook        = ewmhDesktopsStartup
-		, logHook            = myLogHook
-		, manageHook         = myManageHook
-		}
+	{ terminal           = "zsh"
+	, borderWidth        = 2
+	, normalBorderColor  = "black"
+	, focusedBorderColor = "orange"
+	, focusFollowsMouse  = True
+	, modMask            = mod4Mask
+	, keys               = myKeys
+	, mouseBindings      = myMouseBindings
+	, layoutHook         = myLayout
+	, handleEventHook    = ewmhDesktopsEventHook
+	, startupHook        = ewmhDesktopsStartup
+	--, logHook            = myLogHook
+	, manageHook         = myManageHook
+	}
 	
 	
