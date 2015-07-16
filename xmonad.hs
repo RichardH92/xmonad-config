@@ -199,9 +199,9 @@ myPP = defaultPP
 	
 	
 -- layouts
---myLayout = avoidStruts $ toggleLayouts (noBorders Full)
---    (smartBorders (tiled ||| mosaic 2 [3,2] ||| Mirror tiled ||| layoutHints (tabbed shrinkText myTab)))
-myLayout = tiled ||| Mirror tiled ||| Full
+myLayout = avoidStruts $ toggleLayouts (noBorders Full)
+    (smartBorders (tiled ||| mosaic 2 [3,2] ||| Mirror tiled ||| layoutHints (tabbed shrinkText myTab)))
+--myLayout = tiled ||| Mirror tiled ||| Full
     where
 	tiled = spacing 5 $ Tall nmaster delta ratio
         --tiled   = layoutHints $ ResizableTall nmaster delta ratio []
@@ -224,8 +224,8 @@ myManageHook = composeAll
  
 		
 main = do
-    --spawn "xmobar"
-    --xmproc <- spawnPipe "xmobar"
+    xmproc <- spawnPipe "xmobar ~/.xmonad/.xmobarrc"
+    spawn "feh --bg-scale ~/Pictures/Wallpaper.jpg"
 
     xmonad $ defaultConfig 
 	{ terminal           = "urxvt"
@@ -239,7 +239,7 @@ main = do
 	, layoutHook         = myLayout
 	, handleEventHook    = ewmhDesktopsEventHook
 	, startupHook        = ewmhDesktopsStartup
-	--, logHook            = myLogHook
+	, logHook            = dynamicLogWithPP $ sjanssenPP {ppOutput = hPutStrLn xmproc}
 	, manageHook         = myManageHook
 	}
 	
