@@ -39,20 +39,18 @@ import System.Environment
 import System.Cmd
 import Control.Concurrent
 
-
-
 myKeys conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
     -- terminals
-    --[ ((modMask,                 xK_Return), spawn $ XMonad.terminal conf)
-    [ ((modMask .|. shiftMask,   xK_Return), spawn "urxvt")
+    [ ((modMask,                 xK_Return), spawn $ XMonad.terminal conf)
+    , ((modMask .|. shiftMask,   xK_Return), spawn "gnome-terminal zsh")
  
     -- file manager
     , ((modMask,                 xK_Up    ), spawn "nautilus ~")
  
     -- shell/window prompts
-    --, ((modMask,                 xK_space ), runOrRaisePrompt mySP)
-    --, ((modMask .|. shiftMask,   xK_space ), shellPrompt mySP)
-    --, ((modMask .|. controlMask, xK_space), windowPromptGoto mySP)
+    , ((modMask,                 xK_space ), runOrRaisePrompt mySP)
+    , ((modMask .|. shiftMask,   xK_space ), shellPrompt mySP)
+    , ((modMask .|. controlMask, xK_space), windowPromptGoto mySP)
  
     -- browser
     --, ((modMask,               xK_b     ), runOrRaise
@@ -109,7 +107,7 @@ myKeys conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
     , ((modMask,               xK_f     ), sendMessage ToggleStruts)
  
     -- close focused window
-    , ((modMask              , xK_w     ), kill)
+    , ((modMask              , xK_c     ), kill)
  
     -- Restart xmonad
     , ((modMask              , xK_q     ),
