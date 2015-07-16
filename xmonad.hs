@@ -22,6 +22,7 @@ import XMonad.Layout.Tabbed
 import XMonad.Layout.ToggleLayouts
 import XMonad.Layout.WindowArranger
 import XMonad.Layout.Mosaic
+import XMonad.Layout.Spacing
  
 import XMonad.Prompt
 import XMonad.Prompt.Input
@@ -42,7 +43,8 @@ import Control.Concurrent
 myKeys conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
     -- terminals
     [ ((modMask,                 xK_Return), spawn $ XMonad.terminal conf)
-    , ((modMask .|. shiftMask,   xK_Return), spawn "gnome-terminal zsh")
+    --, ((modMask .|. shiftMask,   xK_Return), spawn "gnome-terminal zsh")
+    , ((modMask .|. shiftMask,   xK_Return), spawn "xterm")
  
     -- file manager
     , ((modMask,                 xK_Up    ), spawn "nautilus ~")
@@ -197,12 +199,14 @@ myPP = defaultPP
 	
 	
 -- layouts
-myLayout = avoidStruts $ toggleLayouts (noBorders Full)
-    (smartBorders (tiled ||| mosaic 2 [3,2] ||| Mirror tiled ||| layoutHints (tabbed shrinkText myTab)))
+--myLayout = avoidStruts $ toggleLayouts (noBorders Full)
+--    (smartBorders (tiled ||| mosaic 2 [3,2] ||| Mirror tiled ||| layoutHints (tabbed shrinkText myTab)))
+myLayout = tiled ||| Mirror tiled ||| Full
     where
-        tiled   = layoutHints $ ResizableTall nmaster delta ratio []
+	tiled = spacing 5 $ Tall nmaster delta ratio
+        --tiled   = layoutHints $ ResizableTall nmaster delta ratio []
         nmaster = 1
-        delta   = 2/100
+        delta   = 5/100
         ratio   = 1/2
  
  
@@ -220,10 +224,11 @@ myManageHook = composeAll
  
 		
 main = do
-    xmproc <- spawnPipe "xmobar"
+    --spawn "xmobar"
+    --xmproc <- spawnPipe "xmobar"
 
     xmonad $ defaultConfig 
-	{ terminal           = "zsh"
+	{ terminal           = "urxvt"
 	, borderWidth        = 2
 	, normalBorderColor  = "black"
 	, focusedBorderColor = "orange"
