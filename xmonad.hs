@@ -44,7 +44,7 @@ myKeys conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
     -- terminals
     [ ((modMask,                 xK_Return), spawn $ XMonad.terminal conf)
     --, ((modMask .|. shiftMask,   xK_Return), spawn "gnome-terminal zsh")
-    , ((modMask .|. shiftMask,   xK_Return), spawn "xterm")
+    , ((modMask .|. shiftMask,   xK_Return), spawn "xterm -fa 'Monospace' -fs 10")
  
     -- file manager
     , ((modMask,                 xK_Up    ), spawn "nautilus ~")
@@ -225,6 +225,7 @@ myManageHook = composeAll
 		
 main = do
     xmproc <- spawnPipe "xmobar ~/.xmonad/.xmobarrc"
+    spawn "xcompmgr" 
     spawn "feh --bg-scale ~/Pictures/Wallpaper.jpg"
 
     xmonad $ defaultConfig 
